@@ -3,7 +3,7 @@ Midterm Exam for Computer Graphic &amp; Animation
 
 ## How to open this project on unity?
 on unityhub: 
-1. click open -> locate this project -> Computer Graphics Midterm folder -> click ok/open
+1. click open
 ![click open](image.png)
 
 2. locate this github project
