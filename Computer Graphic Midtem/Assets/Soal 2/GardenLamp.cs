@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class GardenLamp : MonoBehaviour
 {
+    // tracks sun rotation so it'll go on/off on cycles
+    [SerializeField]
+    Transform sun;
+
     [SerializeField]
     Material lampMaterial;
 
@@ -125,6 +129,6 @@ public class GardenLamp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log("rotation(" + sun.rotation.eulerAngles.x + ", " + sun.rotation.eulerAngles.y + ", " + sun.rotation.eulerAngles.z + ")");
     }
 }
