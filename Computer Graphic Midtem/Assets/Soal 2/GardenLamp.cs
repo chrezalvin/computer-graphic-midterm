@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 
 public class GardenLamp : MonoBehaviour
 {
     // tracks sun rotation so it'll go on/off on cycles
     [SerializeField]
     Transform sun;
+
+    [SerializeField]
+    Transform table;
 
     [SerializeField]
     Material lampMaterial;
@@ -17,6 +20,8 @@ public class GardenLamp : MonoBehaviour
 
     public float lampWidth = 6;
     public float lampHeight = 6;
+
+    private GameObject spotlight = null;
 
     private int setQuad(int[] triangles, int iii, int v00, int v10, int v01, int v11)
     {
@@ -115,20 +120,31 @@ public class GardenLamp : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Object tower = Instantiate(new GameObject("Tower"), this.transform);
+        GameObject tower = Instantiate(new GameObject("Tower"), this.transform);
         tower.AddComponent<MeshFilter>().mesh = createCube(lampWidth, lampHeight); ;
         tower.AddComponent<MeshRenderer>().material = lampMaterial;
 
-        Object light = Instantiate(new GameObject("Light"), this.transform);
+        GameObject light = Instantiate(new GameObject("Light"), this.transform);
         float offset = lampHeight - lampWidth * 2;
         light.AddComponent<MeshFilter>().mesh = createLamp(lampHeight - lampWidth * 2 * 1.2f, lampWidth, 1);
         light.AddComponent<MeshRenderer>().material = lightMaterial;
 
+        GameObject lightPlacement = Instantiate(new GameObject("LightPoint"), this.transform);
+        lightPlacement.transform.position = new Vector3(this.transform.position.x, lampHeight - lampWidth * 2 * 1.2f, this.transform.position.z);
+        Light spot = lightPlacement.AddComponent<Light>(); ;
+        spot.type = UnityEngine.LightType.Spot;
+        spot.range = Vector3.Distance(spot.transform.position, table.transform.position);
+        spot.spotAngle = 75f;
+
+        spotlight = lightPlacement;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("rotation(" + sun.rotation.eulerAngles.x + ", " + sun.rotation.eulerAngles.y + ", " + sun.rotation.eulerAngles.z + ")");
+        if (spotlight)
+        {
+            spotlight.transform.LookAt(table);
+        }
     }
 }

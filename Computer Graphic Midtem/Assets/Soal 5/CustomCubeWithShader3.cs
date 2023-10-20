@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CustomCubeWithShader3 : MonoBehaviour
 {
+    [SerializeField]
     private static Color[] grayValuedColors =
     {
         new Color(220,220,220),
@@ -28,7 +29,10 @@ public class CustomCubeWithShader3 : MonoBehaviour
     }
 
     [SerializeField]
-    public Material cubeMaterial;
+    Material cubeMaterial;
+
+    [SerializeField]
+    Texture texture;
 
     public float spinSpeed;
     public Vector3 rotateAmount;
@@ -45,33 +49,6 @@ public class CustomCubeWithShader3 : MonoBehaviour
         Mesh mesh = new Mesh();
 
         var vertices = new Vector3[24];
-        /*
-        // not needed (recalculate normals)
-        var normals = new Vector3[] {
-            new Vector3(1.0f, 0.0f, 0.0f),
-            new Vector3(1.0f, 0.0f, 0.0f),
-            new Vector3(1.0f, 0.0f, 0.0f),
-
-            new Vector3(0.0f, 1.0f, 0.0f),
-            new Vector3(0.0f, 1.0f, 0.0f),
-            new Vector3(0.0f, 1.0f, 0.0f),
-
-            new Vector3(0.0f, 0.0f, 1.0f),
-            new Vector3(0.0f, 0.0f, 1.0f),
-            new Vector3(0.0f, 0.0f, 1.0f),
-
-            new Vector3(-1.0f, 0.0f, 0.0f),
-            new Vector3(-1.0f, 0.0f, 0.0f),
-            new Vector3(-1.0f, 0.0f, 0.0f),
-
-            new Vector3(0.0f, -1.0f, 0.0f),
-            new Vector3(0.0f, -1.0f, 0.0f),
-            new Vector3(0.0f, -1.0f, 0.0f),
-
-            new Vector3(0.0f, 0.0f, -1.0f),
-            new Vector3(0.0f, 0.0f, -1.0f),
-            new Vector3(0.0f, 0.0f, -1.0f)
-        };*/
 
         int[,] map = new int[24,3] {
             // x positive
@@ -111,12 +88,33 @@ public class CustomCubeWithShader3 : MonoBehaviour
             {-1, -1, -1 },
         };
 
+        var uvVertices = new Vector3[4];
+        var uv = new Vector2[4];
+        var uvVecticesMapping = new int[4, 3] {
+            {1, 1, 1 },
+            {-1, 1, 1 },
+            {1, 1, -1 },
+            {-1, 1, -1 },
+        };
+
+        cubeMaterial.mainTexture = texture;
+
         for (int iii = 0; iii < vertices.Length; ++iii)
         {
             vertices[iii] = new Vector3(width * map[iii, 0], height * map[iii, 1], thickness * map[iii, 2]);
+        }        
+        
+        for (int iii = 0; iii < uvVertices.Length; ++iii)
+        {
+            uvVertices[iii] = new Vector3(width * uvVecticesMapping[iii, 0], height * uvVecticesMapping[iii, 1], thickness * map[iii, 2]);
         }
 
+        uv[0] = new Vector2(1, 1);
+        uv[1] = new Vector2(0, 1);
+        uv[2] = new Vector2(1, 0);
+        uv[3] = new Vector2(0, 0);
 
+        mesh.uv = uv;
         mesh.vertices = vertices;
 
         mesh.triangles = new int[] {

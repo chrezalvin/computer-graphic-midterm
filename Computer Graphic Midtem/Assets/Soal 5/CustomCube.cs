@@ -11,6 +11,9 @@ public class CustomCube : MonoBehaviour
     [SerializeField]
     Color color;
 
+    [SerializeField]
+    Texture texture;
+
     public float cubeWidth = 6;
     public float cubeHeight = 6;
 
@@ -111,12 +114,33 @@ public class CustomCube : MonoBehaviour
             {-1, -1, -1 },
         };
 
+        var uvVertices = new Vector3[4];
+        var uv = new Vector2[4];
+        var uvVecticesMapping = new int[4, 3] {
+            {1, 1, 1 },
+            {-1, 1, 1 },
+            {1, 1, -1 },
+            {-1, 1, -1 },
+        };
+
+        material.mainTexture = texture;
+
         for (int iii = 0; iii < vertices.Length; ++iii)
         {
             vertices[iii] = new Vector3(width * map[iii, 0], height * map[iii, 1], width * map[iii, 2]);
         }
 
+        for (int iii = 0; iii < uvVertices.Length; ++iii)
+        {
+            uvVertices[iii] = new Vector3(width * uvVecticesMapping[iii, 0], height * uvVecticesMapping[iii, 1], width * map[iii, 2]);
+        }
 
+        uv[0] = new Vector2(1, 1);
+        uv[1] = new Vector2(0, 1);
+        uv[2] = new Vector2(1, 0);
+        uv[3] = new Vector2(0, 0);
+
+        // mesh.uv = uv;
         mesh.vertices = vertices;
 
         mesh.triangles = new int[] {
