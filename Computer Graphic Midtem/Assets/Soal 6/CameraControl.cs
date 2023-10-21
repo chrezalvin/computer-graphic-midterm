@@ -26,8 +26,8 @@ public class CameraControl : MonoBehaviour
         float mouse_x = Input.GetAxis("Mouse X");
         float mouse_y = Input.GetAxis("Mouse Y");
 
-        this.transform.Translate(Vector3.forward * vertical * Time.deltaTime * speed, Space.World);
-        this.transform.Translate(Vector3.right * horizontal * Time.deltaTime * speed, Space.World);
+        this.transform.Translate(Vector3.forward * vertical * Time.deltaTime * speed, Space.Self);
+        this.transform.Translate(Vector3.right * horizontal * Time.deltaTime * speed, Space.Self);
 
         this.transform.Rotate(Vector3.up * mouse_x);
         this.transform.Rotate(Vector3.left * mouse_y);

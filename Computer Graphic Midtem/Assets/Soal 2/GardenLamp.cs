@@ -106,10 +106,12 @@ public class GardenLamp : MonoBehaviour
         iii = setQuad(triangles, iii, 2, 6, 1, 5);
         iii = setQuad(triangles, iii, 1, 0, 5, 4);
         iii = setQuad(triangles, iii, 0, 4, 3, 7);
+        iii = setQuad(triangles, iii, 3, 2, 7, 6);
 
         iii = setQuad(triangles, iii, 2 + 4, 6 + 4, 1 + 4, 5 + 4);
         iii = setQuad(triangles, iii, 1 + 4, 0 + 4, 5 + 4, 4 + 4);
         iii = setQuad(triangles, iii, 0 + 4, 4 + 4, 3 + 4, 7 + 4);
+        iii = setQuad(triangles, iii, 3 + 4, 2 + 4, 7 + 4, 6 + 4);
 
         mesh.vertices = coordinates;
         mesh.triangles = triangles;
@@ -135,6 +137,7 @@ public class GardenLamp : MonoBehaviour
         spot.type = UnityEngine.LightType.Spot;
         spot.range = Vector3.Distance(spot.transform.position, table.transform.position);
         spot.spotAngle = 75f;
+        spot.intensity = 3;
 
         spotlight = lightPlacement;
     }
